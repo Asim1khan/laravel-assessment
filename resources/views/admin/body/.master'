@@ -1,0 +1,200 @@
+@extends('front.layouts.master')
+@section('content')
+<style type="text/css">
+.headerFixRef {
+    background: #fffcfc;
+}
+body.theme-unified {
+    background: #e9e9e9;
+}
+
+  body{
+    overflow-y: visible;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
+  .headerFixRef.fixed-me{
+    display: none !important;
+    position: relative !important;
+  }
+  .goToPageTop.activeNav{
+    display: none !important;
+  }
+</style>
+<!-- <section class="myAccountBanner">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="text_bannerWraper">
+                    <h2 class="innerTitle700">{{$course->course_title}}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> -->
+
+<section class="introSection1">
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-sm-12"> 
+        <a href="javascript:void(0)" class="viewFullScreen btn btnPrimary btnWidth_Auto">@lang('message.ViewFullScreen')</a>
+        <a href="javascript:void(0)" class="miniFullScreen btn btnPrimary btnWidth_Auto" style="display: none;">@lang('message.Minimizescreen')</a>
+      </div> 
+      <div class="storyLine col-sm-12">  
+        @php
+          $user_id = Auth::user()->id;
+        @endphp
+             <iframe id="storyLineIframe" style="width: 100%;min-height: 100%;"src="https://assanhissab.com/idf/courses/{{$course->id}}_{{session()->get('langu')=='sp'?'sp' : 'en'}}/story.html?user_id={{$user_id}}" frameborder="0"></iframe>
+      </div>
+  </div>
+</div>
+</section>
+<!-- <section>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h4 class="rateComment">Comments</h4>
+        <div class="comments-container">
+          <ul id="comments-list" class="comments-list">
+
+            @foreach($ratings as $key=> $item)
+            @if($item->rating > 0 || !empty($item->comments))
+            <li>
+              <div class="comment-main-level">
+                @if($item->profile_phote==null)
+                <div class="comment-avatar"><img src="{{asset('course/image/1730068019809294.png')}}" alt=""></div>
+                @else
+                <div class="comment-avatar"><img src="{{asset('public/'.$item->profile_phote)}}" alt=""></div>
+                @endif
+                <div class="comment-box">
+                  <div class="comment-head">
+                    <h6 class="comment-name">{{$item->first_name}}{{$item->last_name}}</h6>
+                    <span>{{\Carbon\Carbon::createFromTimeStamp(strtotime($item->timestamp))->diffForHumans()}}</span>
+                  </div>
+                  <div class="comment-content">
+                    <p class="ratingStar">
+                      @if($item->rating > 0)
+                      @if($item->rating==1)
+                      <i class="fa fa-star"></i>
+                      @elseif($item->rating==2)
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      @elseif($item->rating==3)
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      @elseif($item->rating==4)
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      @else
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      @endif
+                      @endif
+                    </p>
+                    @if(!empty($item->comments))
+                      <p class="comment-cont">
+                        <span>“</span>
+                      {{$item->comments}}
+                      <span>”</span>
+                      </p>
+                    @endif
+                    
+                  
+                  </div>
+                </div>
+              </div>
+              
+            </li>
+            @endif
+            @endforeach
+            @if(count($ratings)==0)
+            <li>
+              <div class="comment-main-level">
+                <div class="card commentsCard">
+                  <div class="card-body">
+                    <p class="text-center">No comments available</p>
+                  </div>
+                </div>
+                
+              </div>
+              
+            </li>
+            @endif
+            
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+
+
+<script type="text/javascript">
+  $(window).scroll(function() {    
+    var scroll = $(window).scrollTop();
+
+     //>=, not <=
+    if (scroll >= 100) {
+        //clearHeader, not clearheader - caps H
+        $(".headerFixRef").addClass("fixed-me");
+    }
+});
+</script>
+<script type="text/javascript">
+  $('.viewFullScreen').click(function(e){
+      $('.storyLine').toggleClass('fullscreen'); 
+      $('body').css('overflow-y', 'hidden'); 
+      $('.viewFullScreen').hide(); 
+      $('.miniFullScreen').show(); 
+  });
+  $('.miniFullScreen').click(function(){
+      $('.storyLine').removeClass('fullscreen'); 
+      $('.viewFullScreen').show(); 
+      $('.miniFullScreen').hide(); 
+      $('body').css('overflow-y', 'visible'); 
+
+  });
+
+</script>
+<script type="text/javascript">
+  var $star_rating = $('.star-rating .fa');
+
+    var SetRatingStar = function() {
+      return $star_rating.each(function() {
+        if (parseInt($star_rating.siblings('input.rating-value').val()) >= parseInt($(this).data('rating'))) {
+          return $(this).removeClass('fa-star-o').addClass('fa-star');
+        } else {
+          return $(this).removeClass('fa-star').addClass('fa-star-o');
+        }
+      });
+    };
+
+    $star_rating.on('click', function() {
+      $star_rating.siblings('input.rating-value').val($(this).data('rating'));
+      return SetRatingStar();
+    });
+
+    SetRatingStar();
+    $(document).ready(function() {
+
+    });
+$(".sidebarList li").click(function () {
+   if ($(this).hasClass("active")) {
+     $(".sidebarList li").removeClass("active");
+   }
+   else {
+     $(".sidebarList li").removeClass("active");
+     $(this).addClass("active");
+   }
+
+ });
+</script>
+
+@endse
