@@ -1,3 +1,19 @@
+** onformation about solution **
+
+   admin url
+localhost/admin
+credentials as admin@gmail.com
+password:admin123456789
+user credential  user@gmail.com
+password 123456789
+also run seeder during migration 
+==================
+
+
+
+
+
+
 **Laravel test assignment**
 ==================
 
