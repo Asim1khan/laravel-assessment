@@ -1,4 +1,4 @@
-** onformation about solution **
+** information about solution **
 
    admin url
 localhost/admin
